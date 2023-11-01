@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+{% block content %}
+<br>
+<h4 id="latest_entry">Latest Entry</h4>
+<br><br>
+<div class="row">
+    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+      <div class="card">
+        <div class="card-header p-3 pt-2">
+          <div class="icon icon-lg icon-shape  shadow-dark text-center border-radius-xl mt-n4 position-absolute" style="background-color: rgb(29, 2, 31);">
+            <i class="material-icons opacity-10">Temp</i>
+          </div>
+          <div class="text-end pt-1">
+            <p class="text-sm mb-0 text-capitalize">Latest Temperature</p>
+            <h4 class="mb-0" id="latest_bim"></h4>
+          </div>
+          <hr class="dark horizontal my-0">
+          <div class="card-footer p-3">
+          </div>
+        </div>
+        <hr class="dark horizontal my-0">
+      </div>
+    </div>
+    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+      <div class="card">
+        <div class="card-header p-3 pt-2">
+          <div class="icon icon-lg icon-shape  shadow-warning text-center border-radius-xl mt-n4 position-absolute" style="background-color: rgb(167, 27, 177);">
+            <i class="material-icons opacity-10">Curr</i>
+          </div>
+          <div class="text-end pt-1">
+            <p class="text-sm mb-0 text-capitalize">Latest Current</p>
+            <h4 class="mb-0" id="latest_temp"></h4>
+          </div>
+        </div>
+        <hr class="dark horizontal my-0">
+        <div class="card-footer p-3">
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+      <div class="card">
+        <div class="card-header p-3 pt-2">
+          <div class="icon icon-lg icon-shape  shadow-success text-center border-radius-xl mt-n4 position-absolute" style="background-color: rgb(29, 2, 31);">
+            <i class="material-icons opacity-10">Vib</i>
+          </div>
+          <div class="text-end pt-1">
+            <p class="text-sm mb-0 text-capitalize">Latest Vibration</p>
+            <h4 class="mb-0" id="latest_strick"></h4>
+          </div>
+        </div>
+        <hr class="dark horizontal my-0">
+        <div class="card-footer p-3">
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-sm-6">
+      <div class="card">
+        <div class="card-header p-3 pt-2">
+          <div class="icon icon-lg icon-shape  shadow-success text-center border-radius-xl mt-n4 position-absolute" style="background-color: rgb(167, 27, 177);">
+            <i class="material-icons opacity-10">Spd</i>
+          </div>
+          <div class="text-end pt-1">
+            <p class="text-sm mb-0 text-capitalize">Latest Speed</p>
+            <h4 class="mb-0" id="latest_bp"></h4>
+          </div>
+        </div>
+        <hr class="dark horizontal my-0">
+        <div class="card-footer p-3">
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <h4 id="health_data">3-Ph_IM Data</h4>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Timestamp</th>
+                <th>Temperature</th>
+                <th>Current</th>
+                <th>Vibration</th>
+                <th>Speed</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in health_data %}
+                <tr>
+                    <td>{{ entry.timestamp }}</td>
+                    <td>{{ entry.temperature }}</td>
+                    <td>{{ entry.current }}</td>
+                    <td>{{ entry.vibration }}</td>
+                    <td>{{ entry.speed }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table><br><br>
+    <h4 id="health_chart">3-Ph_IM Chart</h4>
+    <canvas id="healthChart" width="600" height="300"></canvas>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var ctx = document.getElementById('healthChart').getContext('2d');
+    
+            var data = {
+                labels: [{% for entry in health_data %}'{{ entry.timestamp }}',{% endfor %}],
+                datasets: [
+                    {
+                        label: 'Temperature',
+                        data: [{% for entry in health_data %}{{ entry.temperature }},{% endfor %}],
+                        borderColor: 'rgb(37,37,39)',
+                        borderWidth: 1,
+                        fill: false
+                    },
+                    {
+                        label: 'Current',
+                        data: [{% for entry in health_data %}{{ entry.current }},{% endfor %}],
+                        borderColor: 'rgb(230,54,115)',
+                        borderWidth: 1,
+                        fill: false
+                    },
+                    {
+                        label: 'Vibration',
+                        data: [{% for entry in health_data %}{{ entry.vibration }},{% endfor %}],
+                        borderColor: 'rgb(167, 27, 177)',
+                        borderWidth: 1,
+                        fill: false
+                    },
+                    {
+                        label: 'Speed',
+                        data: [{% for entry in health_data %}{{ entry.speed }},{% endfor %}],
+                        borderColor: 'rgb(38,127,234)',
+                        borderWidth: 1,
+                        fill: false
+                    }
+                ]
+            };
+    
+            var options = {
+                scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'day'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            };
+    
+            var chart = new Chart(ctx, {
+                type: 'line',
+                data: data,
+                options: options
+            });
+        });
+    </script>
+    
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var table = document.querySelector('.table');
+        var lastRow = table.rows[table.rows.length - 1];
+    
+        document.querySelector('#latest_bim').textContent = lastRow.cells[1].textContent;
+        document.querySelector('#latest_temp').textContent = lastRow.cells[2].textContent;
+        document.querySelector('#latest_strick').textContent = lastRow.cells[3].textContent;
+        document.querySelector('#latest_bp').textContent = lastRow.cells[4].textContent;
+    });
+    </script>
+{% endblock %}
