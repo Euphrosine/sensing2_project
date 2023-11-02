@@ -3,7 +3,8 @@ from . import views
 
 
 urlpatterns ={
-     path('', views.display_chart_data, name='display_chart_data'),
+    path('', views.display_chart_data, name='display_chart_data'),
     path('api/', views.chart_data_view, name='chart_data_view'),
-    path('add-temp/', views.add_temp, name="add_temperature"),
+    path('chart-data/', views.chart_view, name='chart_data'),
+   
 }
