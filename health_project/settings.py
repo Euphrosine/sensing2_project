@@ -74,14 +74,20 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'health_project.wsgi.application'
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 
-DATABASES = {
-    'default': dj_database_url.config(default='postgres://postgres:F3EA5e3a4GdfDEFd3cCbb4GAgFE6ca-2@roundhouse.proxy.rlwy.net:14655/railway')
-}
+# DATABASES = {
+#     'default': dj_database_url.config(default='postgres://postgres:F3EA5e3a4GdfDEFd3cCbb4GAgFE6ca-2@roundhouse.proxy.rlwy.net:14655/railway')
+# }
 
 
 # Password validation

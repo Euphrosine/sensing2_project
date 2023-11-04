@@ -4,7 +4,9 @@ from django.db import models
 class HealthData(models.Model):
     timestamp = models.DateTimeField()
     temperature = models.FloatField(null=True)
-    current = models.FloatField(null=True)
+    current1 = models.FloatField(null=True)
+    current2 = models.FloatField(null=True)
+    current3 = models.FloatField(null=True)
     vibration = models.FloatField(null=True)
     speed = models.FloatField(null=True)
     

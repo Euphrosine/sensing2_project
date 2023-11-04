@@ -58,19 +58,19 @@
     <div class="col-md-6">
         <div class="row">
             <div class="col-md-12">
-                <h4>Current chart</h4>
-                <canvas id="currentChart" width="400" height="250"></canvas>
+                <h4>Current 1 chart</h4>
+                <canvas id="current1Chart" width="400" height="250"></canvas>
                 <script>
-                    const currentLabels = {{ current_labels| safe }};
-                    const currentData = {{ current_values| safe }};
+                    const current1Labels = {{ current1_labels| safe }};
+                    const current1Data = {{ current1_values| safe }};
 
-                    const currentConfig = {
+                    const current1Config = {
                         type: 'line',
                         data: {
-                            labels: currentLabels,
+                            labels: current1Labels,
                             datasets: [{
-                                label: 'Current',
-                                data: currentData,
+                                label: 'Current 1',
+                                data: current1Data,
                                 fill: false,
                                 borderColor: 'rgb(255, 159, 64)',
                                 tension: 0.1
@@ -78,26 +78,129 @@
                         }
                     };
 
-                    const currentChart = new Chart(
-                        document.getElementById('currentChart').getContext('2d'),
-                        currentConfig
+                    const current1Chart = new Chart(
+                        document.getElementById('current1Chart').getContext('2d'),
+                        current1Config
                     );
                 </script>
             </div>
             <div class="col-md-12">
-                <h4>Current Table</h4>
+                <h4>Current 1 Table</h4>
                 <table class="table table-bordered table-striped">
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col">Timestamp</th>
-                            <th scope="col">Current</th>
+                            <th scope="col">Current 1</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for entry in current_data %}
+                        {% for entry in current1_data %}
                         <tr>
                             <td>{{ entry.timestamp|date:"H:i:s" }}</td>
-                            <td>{{ entry.current }}</td>
+                            <td>{{ entry.current1 }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<div class="row mt-5">
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-12">
+                <h4>Current 2 chart</h4>
+                <canvas id="current2Chart" width="400" height="250"></canvas>
+                <script>
+                    const current2Labels = {{ current2_labels| safe }};
+                    const current2Data = {{ current2_values| safe }};
+
+                    const current2Config = {
+                        type: 'line',
+                        data: {
+                            labels: current2Labels,
+                            datasets: [{
+                                label: 'Current 2',
+                                data: current2Data,
+                                fill: false,
+                                borderColor: 'rgb(255, 159, 64)',
+                                tension: 0.1
+                            }]
+                        }
+                    };
+
+                    const current2Chart = new Chart(
+                        document.getElementById('current2Chart').getContext('2d'),
+                        current2Config
+                    );
+                </script>
+            </div>
+            <div class="col-md-12">
+                <h4>Current 2 Table</h4>
+                <table class="table table-bordered table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Timestamp</th>
+                            <th scope="col">Current 2</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for entry in current2_data %}
+                        <tr>
+                            <td>{{ entry.timestamp|date:"H:i:s" }}</td>
+                            <td>{{ entry.current2 }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-12">
+                <h4>Current 3 chart</h4>
+                <canvas id="current3Chart" width="400" height="250"></canvas>
+                <script>
+                    const current3Labels = {{ current3_labels| safe }};
+                    const current3Data = {{ current3_values| safe }};
+
+                    const current3Config = {
+                        type: 'line',
+                        data: {
+                            labels: current3Labels,
+                            datasets: [{
+                                label: 'Current 3',
+                                data: current3Data,
+                                fill: false,
+                                borderColor: 'rgb(255, 159, 64)',
+                                tension: 0.1
+                            }]
+                        }
+                    };
+
+                    const current3Chart = new Chart(
+                        document.getElementById('current3Chart').getContext('2d'),
+                        current3Config
+                    );
+                </script>
+            </div>
+            <div class="col-md-12">
+                <h4>Current 3 Table</h4>
+                <table class="table table-bordered table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Timestamp</th>
+                            <th scope="col">Current 3</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for entry in current3_data %}
+                        <tr>
+                            <td>{{ entry.timestamp|date:"H:i:s" }}</td>
+                            <td>{{ entry.current3 }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>
