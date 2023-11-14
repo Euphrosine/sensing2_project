@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from .models import HealthData
 from django.utils import timezone
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -34,6 +35,7 @@ def chart_data_view(request):
 
     return JsonResponse({"message": "Data saved successfully"})
 
+@login_required
 def display_chart_data(request):
     health_data = HealthData.objects.all()
     return render(request, 'health_app/chart_data_view.html', {'health_data': health_data})
