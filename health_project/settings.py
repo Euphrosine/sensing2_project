@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'health_app',
      'crispy_forms',
      'crispy_bootstrap4',
@@ -76,20 +77,30 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'health_project.wsgi.application'
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'sensing2-project',
+        'USER': 'admin',
+        'PASSWORD': 'admin123',
+        'HOST': 'mysql-153418-0.cloudclusters.net',
+        'PORT': '19069',
+
     }
 }
 
-# Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 
-# DATABASES = {
-#     'default': dj_database_url.config(default='postgres://postgres:F3EA5e3a4GdfDEFd3cCbb4GAgFE6ca-2@roundhouse.proxy.rlwy.net:14655/railway')
-# }
+
 
 
 # Password validation

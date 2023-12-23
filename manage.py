@@ -2,6 +2,7 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+from  health_app.romeoModel.utils import  make_recommendation
 
 
 def main():

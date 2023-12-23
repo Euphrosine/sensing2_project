@@ -113,7 +113,8 @@
   </div> 
 </div>
 
-
+<!-- Area to display predictions -->
+<div id="predictionsArea" style="background-color: blueviolet; color:white;font-weight: bolder;"></div>
 
 <div class="container mt-5">
     <h4 id="health_data">3-Ph_IM Data</h4>
@@ -127,6 +128,7 @@
                 <th>Current3</th>
                 <th>Vibration</th>
                 <th>Speed</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -139,10 +141,14 @@
                     <td>{{ entry.current3 }}</td>
                     <td>{{ entry.vibration }}</td>
                     <td>{{ entry.speed }}</td>
+                    <td><button class="predict-button">Predictions</button></td>
                 </tr>
             {% endfor %}
         </tbody>
     </table><br><br>
+    <!-- Area to display predictions -->
+    <div id="predictionsArea"></div>
+
     <h4 id="health_chart">3-Ph_IM Chart</h4>
     <canvas id="healthChart" width="600" height="300"></canvas>
     <script>
@@ -222,16 +228,56 @@
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var table = document.querySelector('.table');
-        var lastRow = table.rows[table.rows.length - 1];
-    
-        document.querySelector('#latest_temp').textContent = lastRow.cells[1].textContent;
-        document.querySelector('#latest_curr1').textContent = lastRow.cells[2].textContent;
-        document.querySelector('#latest_curr2').textContent = lastRow.cells[3].textContent;
-        document.querySelector('#latest_curr3').textContent = lastRow.cells[4].textContent;
-        document.querySelector('#latest_vib').textContent = lastRow.cells[5].textContent;
-        document.querySelector('#latest_spd').textContent = lastRow.cells[6].textContent;
+document.addEventListener("DOMContentLoaded", function () {
+    var predictButtons = document.querySelectorAll(".predict-button");
+    var predictionsContainer = document.getElementById("predictionsArea");
+
+    predictButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+            var row = button.closest("tr");
+
+            if (row && row instanceof HTMLTableRowElement) {
+                var rowData = {
+                    "current_1_lebelling": row.cells[2].innerText,
+                    "current_2_lebelling": row.cells[3].innerText,
+                    "current_3_lebelling": row.cells[4].innerText,
+                    "temperature": row.cells[1].innerText,
+                    "speed": row.cells[6].innerText,
+                    "vibration": row.cells[5].innerText
+                };
+
+                // Make API request using Fetch API
+                fetch("/api/motor-recommendation/", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify([rowData]),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data.prediction !== undefined && data.recommendation !== undefined) {
+                        // Convert recommendation object to string
+                        var recommendationString = JSON.stringify(data.recommendation);
+
+                        // Update the predictions container in the template
+                        predictionsContainer.innerHTML =
+                            "<p>Prediction: " + data.prediction + "</p>" +
+                            "<p>Recommendation: " + recommendationString + "</p>";
+                    } else {
+                        predictionsContainer.innerHTML = "<p>Error: Prediction or Recommendation is undefined.</p>";
+                    }
+                })
+                .catch(error => {
+                    predictionsContainer.innerHTML = "<p>Error: API Request failed.</p>";
+                    console.log("API Request Error:", error);
+                });
+            } else {
+                predictionsContainer.innerHTML = "<p>Error: Row is null or not an HTMLTableRowElement</p>";
+            }
+        });
     });
-    </script>
+});
+
+</script>
 {% endblock %}

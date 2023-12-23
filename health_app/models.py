@@ -10,6 +10,11 @@ class HealthData(models.Model):
     vibration = models.FloatField(null=True)
     speed = models.FloatField(null=True)
     
-
     def __str__(self):
       return f"Health Data - ID: {self.id}"
+    
+
+class MachineLearningPrediction(models.Model):
+    timestamp = models.DateTimeField()
+    prediction = models.FloatField()
+

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Result</title>
+
+    <!-- Include jQuery library -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Function to update prediction in real-time
+            function updatePrediction() {
+                // Make AJAX GET request to retrieve latest health data
+                $.ajax({
+                    type: 'GET',
+                    url: '/latest_health_data/',  // Adjust the URL as needed
+                    success: function (data) {
+                        // Update display with latest health data
+                        $('#temperatureDisplay').text("Temperature: " + data.temperature);
+                        $('#current_1Display').text("Current 1: " + data.current1);
+                        $('#current_2Display').text("Current 2: " + data.current2);
+                        $('#current_3Display').text("Current 3: " + data.current3);
+                        $('#vibrationDisplay').text("Vibration: " + data.vibration);
+                        $('#speedDisplay').text("Speed: " + data.speed);
+
+                        // Make AJAX POST request to prediction endpoint
+                        $.ajax({
+                            type: 'POST',
+                            url: '/predict/',  // Adjust the URL as needed
+                            data: data,
+                            success: function (result) {
+                                // Update prediction and recommendation
+                                $('#prediction').text("Predicted System Condition: " + result.prediction);
+                                $('#recommendation').text(result.recommendation);
+                            },
+                            error: function (error) {
+                                console.log('Error:', error);
+                            }
+                        });
+                    },
+                    error: function (error) {
+                        console.log('Error:', error);
+                    }
+                });
+            }
+
+            // Initially update prediction when the page loads
+            updatePrediction();
+
+            // Update prediction every X milliseconds (e.g., every 5000 ms or 5 seconds)
+            setInterval(updatePrediction, 5000);
+        });
+    </script>
+</head>
+<body>
+    <h1>Prediction Result</h1>
+
+    <ul>
+        <li><strong id="temperatureDisplay">Temperature: Loading...</strong></li>
+        <li><strong id="current_1Display">Current 1: Loading...</strong></li>
+        <li><strong id="current_2Display">Current 2: Loading...</strong></li>
+        <li><strong id="current_3Display">Current 3: Loading...</strong></li>
+        <li><strong id="vibrationDisplay">Vibration: Loading...</strong></li>
+        <li><strong id="speedDisplay">Speed: Loading...</strong></li>
+    </ul>
+    
+    <h2 id="prediction">Predicted System Condition: Loading...</h2>
+    <p id="recommendation">Recommendation: Loading...</p>
+</body>
+</html>
