@@ -1,1 +1,5 @@
 senv2
+_MACOSX
+__pycache__
+romeoModel/__pycache__
+romeoModel/.idea
