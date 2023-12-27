@@ -25,7 +25,7 @@ def prediction_view(request):
 
     if request.method == 'POST':
         # Load the pre-trained model
-        clf = joblib.load('remeoModel/saved_models/motor_recommendation.pkl')
+        clf = joblib.load('romeoModel/saved_models/motor_recommendation.pkl')
 
         # Create a dictionary to map system conditions to human-readable recommendations
         condition_to_recommendation = {
