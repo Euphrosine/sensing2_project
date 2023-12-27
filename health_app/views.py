@@ -7,6 +7,8 @@ import pandas as pd
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
+from health_app.romeoModel.utils import make_recommendation
+
 
 from rest_framework import status
 from rest_framework.response import Response
@@ -26,7 +28,7 @@ def prediction_view(request):
 
     if request.method == 'POST':
         # Load the pre-trained model
-        clf = joblib.load('ml_models/romeo_motor_model.joblib')
+        clf = joblib.load('remeoModel/saved_models/motor_recommendation.pkl')
 
         # Create a dictionary to map system conditions to human-readable recommendations
         condition_to_recommendation = {

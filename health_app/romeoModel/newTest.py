@@ -1,6 +1,9 @@
 # Test the usage og saved model
 import pickle
 import pandas as pd
+# from health_app.romeoModel.utils import make_recommendation
+
+
 with open('saved_models/motor_recommendation.pkl', 'rb') as f:
     best_model, make_recommendation, labelencoder = pickle.load(f)
 print("Model loaded successfully.")

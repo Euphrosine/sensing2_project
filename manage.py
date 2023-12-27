@@ -21,3 +21,7 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+import __main__
+def make_recommendation(d): return##
+__main__.make_recommendation = make_recommendation
