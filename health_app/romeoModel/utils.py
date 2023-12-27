@@ -1,4 +1,6 @@
 # Function takes the predicted values and decodes them
+print("Importing utils.py")
+
 def make_recommendation(inputs, pred, encoder):
     decoded_preds = encoder.inverse_transform(pred)
     recommendations = []

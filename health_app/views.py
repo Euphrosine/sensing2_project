@@ -7,9 +7,6 @@ import pandas as pd
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
-from health_app.romeoModel.utils import make_recommendation
-
-
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -17,7 +14,7 @@ from .serializers import MotorRecommendationInputSerializer
 from rest_framework.exceptions import ValidationError
 import pandas as pd
 import pickle
-
+from health_app.romeoModel.utils import make_recommendation
 from health_app import serializers
 
 
